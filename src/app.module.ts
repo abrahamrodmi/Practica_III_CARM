@@ -11,8 +11,8 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   imports: [ConfigModule],
   useFactory: (configService: ConfigService) => ({
     type: 'postgres',
-    //url: configService.get<string>('DATABASE_URL'),
-    url: 'postgresql://postgres:tuliotrivino@aws-0-us-west-1.pooler.supabase.com:6543/postgres?sslmode=require',
+    url: configService.get<string>('DATABASE_URL'),
+    //url: 'postgresql://postgres:tuliotrivino@aws-0-us-west-1.pooler.supabase.com:6543/postgres?sslmode=require',
 
     autoLoadEntities: true,
     synchronize: true,
