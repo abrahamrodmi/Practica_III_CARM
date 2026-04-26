@@ -4,6 +4,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
+  console.log('=== DATABASE_URL:', process.env.DATABASE_URL); 
   const app = await NestFactory.create(AppModule);
   const config = new DocumentBuilder()
     .setTitle('Practica III')
@@ -25,3 +26,4 @@ async function bootstrap() {
   await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();
+
