@@ -15,7 +15,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         url: 'postgresql://postgres:tuliotrivino@aws-0-us-west-1.pooler.supabase.com:6543/postgres?sslmode=require',
         autoLoadEntities: true,
         synchronize: true,
-        ssl: { rejectUnauthorized: false },
+        //ssl: { rejectUnauthorized: false },
+        ssl: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+    },
       }),
       inject: [ConfigService],
     }),
