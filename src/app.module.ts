@@ -6,25 +6,22 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 
 @Module({
   imports: [
-    ConfigModule.forRoot({ isGlobal: true }),
+    ConfigModule.forRoot({ isGlobal: true, envFilePath: 'process.env' }),
     TypeOrmModule.forRootAsync({
-  imports: [ConfigModule],
-  useFactory: (configService: ConfigService) => ({
-    type: 'postgres',
-    //url: configService.get<string>('DATABASE_URL'),
-    url: 'postgresql://postgres:tuliotrivino@aws-0-us-west-1.pooler.supabase.com:6543/postgres?sslmode=require',
-
-    autoLoadEntities: true,
-    synchronize: true,
-    ssl: true, 
-    extra: {
-      ssl: {
-        rejectUnauthorized: false,
-      },
-    },
-  }),
-  inject: [ConfigService],
-}),
+      imports: [ConfigModule],
+      useFactory: (configService: ConfigService) => ({
+        type: 'postgres',
+        url: configService.get<string>('DATABASE_URL'),
+        autoLoadEntities: true,
+        synchronize: true,
+        extra: {
+          ssl: {
+            rejectUnauthorized: false,
+          },
+        },
+      }),
+      inject: [ConfigService],
+    }),
     AuthModule,
     ReservaModule
   ],
