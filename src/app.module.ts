@@ -8,23 +8,22 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      useFactory: (configService: ConfigService) => ({
-        type: 'postgres',
-        //url: configService.get<string>('DATABASE_URL'),
-        url: 'postgresql://postgres:tuliotrivino@aws-0-us-west-1.pooler.supabase.com:6543/postgres?sslmode=require',
-        autoLoadEntities: true,
-        synchronize: true,
-        //ssl: { rejectUnauthorized: false },
-        ssl: true,
-        extra: {
-          ssl: {
-            rejectUnauthorized: false,
-          },
+  imports: [ConfigModule],
+  useFactory: (configService: ConfigService) => ({
+    type: 'postgres',
+    url: configService.get<string>('DATABASE_URL'),
+    autoLoadEntities: true,
+    synchronize: true,
+    // Configuramos SSL tanto en el objeto principal como en el extra por seguridad
+    ssl: true, 
+    extra: {
+      ssl: {
+        rejectUnauthorized: false,
+      },
     },
-      }),
-      inject: [ConfigService],
-    }),
+  }),
+  inject: [ConfigService],
+}),
     AuthModule,
     ReservaModule
   ],
