@@ -13,7 +13,7 @@ export class ReservaController {
   constructor(private readonly reservaService: ReservaService) { }
 
   @ApiBearerAuth()
-  @UseGuards(AuthGuard) 
+  @UseGuards(AuthGuard)
   @ApiBody({ type: CreateReservaDto })
   @ApiCreatedResponse({ type: Reserva, description: "Reserva creada exitosamente" })
   @ApiUnauthorizedResponse({ description: "No autorizado / Token inválido" })
@@ -37,6 +37,8 @@ export class ReservaController {
     return this.reservaService.findOne(+id);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @ApiBody({ type: UpdateReservaDto })
   @ApiOkResponse({ type: Reserva, description: "Reserva modificada exitosamente" })
   @ApiNotFoundResponse({ description: "Reserva no encontrada" })
@@ -45,6 +47,8 @@ export class ReservaController {
     return this.reservaService.update(+id, updateReservaDto);
   }
 
+  @ApiBearerAuth()
+  @UseGuards(AuthGuard)
   @ApiOkResponse({ description: "Reserva eliminada exitosamente" })
   @ApiNotFoundResponse({ description: "Reserva no encontrada" })
   @Delete(':id')
